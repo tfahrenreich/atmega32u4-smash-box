@@ -4,7 +4,7 @@
 
 #define BOUNCE_WITH_PROMPT_DETECTION
 
-#include <Bounce2.h>
+//#include <Bounce2.h>
 #include "Buttons.h"
 
 #define MILLIDEBOUNCE 1 //Debounce time in milliseconds
@@ -15,13 +15,13 @@
 #define BUTTONA 4
 #define BUTTONB 5
 
-Bounce buttonA = Bounce();
-Bounce buttonB = Bounce();
+//Bounce buttonA = Bounce();
+//Bounce buttonB = Bounce();
 
-byte buttonStatus[15];
+//byte buttonStatus[15];
 
 void setup() {
-    setupButtons();
+    ButtonMatrix::setupButtons();
 //    pushButton(Button::B, 500, 5);
 //    Serial.begin(115200);
 //    buttonA.attach(5, INPUT_PULLUP);
@@ -70,8 +70,9 @@ void clearButtons() {
 }
 
 void loop() {
-    readMatrix();
-    printMatrix();
+    ButtonMatrix::handleMatrix();
+//    readMatrix();
+//    printMatrix();
 //    clearButtons();
 //
 //    update();
