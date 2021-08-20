@@ -13,7 +13,32 @@ const int colCount = sizeof(cols) / sizeof(cols[0]);
 
 byte keys[colCount][rowCount];
 
-void ButtonMatrix::setupButtons() {
+ButtonMatrix_::ButtonMatrix_() {
+    _controllerState.y = false;
+    _controllerState.x = false;
+    _controllerState.b = false;
+    _controllerState.a = false;
+    _controllerState.l = false;
+    _controllerState.r = false;
+    _controllerState.zl = false;
+    _controllerState.zr = false;
+    _controllerState.up = false;
+    _controllerState.down = false;
+    _controllerState.right = false;
+    _controllerState.left = false;
+    _controllerState.mod_x = false;
+    _controllerState.mod_y = false;
+    _controllerState.c_left = false;
+    _controllerState.c_right = false;
+    _controllerState.c_up = false;
+    _controllerState.c_down = false;
+    _controllerState.plus = false;
+    _controllerState.minus = false;
+    _controllerState.home = false;
+    ButtonMatrix_::setupButtons();
+};
+
+void ButtonMatrix_::setupButtons() {
     Serial.begin(115200);
 
     for (unsigned char row : rows) {
@@ -24,10 +49,12 @@ void ButtonMatrix::setupButtons() {
         Serial.print(col);
         pinMode(col, INPUT_PULLUP);
     }
-}
+};
 
-
-void ButtonMatrix::assignButtonValues() {
+void ButtonMatrix_::assignButtonValues() {
+    //[0][0]y          [1][0]x         [2][0]b         [3][0]a         [4][0]l         [5][0]r         [6][0]zl
+    //[0][1]zr         [1][1]up        [2][1]down      [3][1]right     [4][1]left      [5][1]modx      [6][1]mody
+    //[0][2]c_left     [1][2]c_right   [2][2]c_up      [3][2]c_down    [4][2]plus      [5][2]minus     [6][2]home
     _controllerState.y = keys[0][0];
     _controllerState.x = keys[1][0];
     _controllerState.b = keys[2][0];
@@ -53,7 +80,7 @@ void ButtonMatrix::assignButtonValues() {
     _controllerState.home = keys[6][2];
 };
 
-void ButtonMatrix::handleMatrix() {
+void ButtonMatrix_::handleMatrix() {
     for (int colIndex = 0; colIndex < colCount; colIndex++) {
         byte curCol = cols[colIndex];
         pinMode(curCol, OUTPUT);
@@ -67,5 +94,31 @@ void ButtonMatrix::handleMatrix() {
         }
         pinMode(curCol, INPUT);
     }
-    ButtonMatrix::assignButtonValues();
+    ButtonMatrix_::assignButtonValues();
 };
+
+void ButtonMatrix_::printMatrix() {
+    for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+        if (rowIndex < 10)
+            Serial.print(F("0"));
+        Serial.print(rowIndex);
+        Serial.print(F(": "));
+
+        for (int colIndex = 0; colIndex < colCount; colIndex++) {
+            Serial.print(keys[colIndex][rowIndex]);
+            if (colIndex < colCount)
+                Serial.print(F(", "));
+        }
+        Serial.println("");
+    }
+    Serial.println("");
+}
+
+ButtonsState ButtonMatrix_::getButtonsState() {
+    return _controllerState;
+}
+
+ButtonMatrix_ &ButtonMatrix() {
+    static ButtonMatrix_ obj;
+    return obj;
+}

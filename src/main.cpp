@@ -19,9 +19,11 @@
 //Bounce buttonB = Bounce();
 
 //byte buttonStatus[15];
+//ButtonsState ButtonMatrix_
+auto b = ButtonMatrix().getButtonsState();
 
 void setup() {
-    ButtonMatrix::setupButtons();
+    ButtonMatrix();
 //    pushButton(Button::B, 500, 5);
 //    Serial.begin(115200);
 //    buttonA.attach(5, INPUT_PULLUP);
@@ -70,7 +72,19 @@ void clearButtons() {
 }
 
 void loop() {
-    ButtonMatrix::handleMatrix();
+    ButtonMatrix().handleMatrix();
+    ButtonMatrix().printMatrix();
+
+    auto a = ButtonMatrix().getButtonsState();
+
+    if (a.y) {
+        Serial.print("a.y");
+        Serial.print(a.y);
+    }
+    if (b.y) {
+        Serial.print("b.y");
+        Serial.print(b.y);
+    }
 //    readMatrix();
 //    printMatrix();
 //    clearButtons();
