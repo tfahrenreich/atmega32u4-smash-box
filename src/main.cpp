@@ -5,6 +5,7 @@
 #define BOUNCE_WITH_PROMPT_DETECTION
 
 #include <Bounce2.h>
+#include "Buttons.h"
 
 #define MILLIDEBOUNCE 1 //Debounce time in milliseconds
 #define pinOBLED 21  //Onboard LED pin
@@ -20,56 +21,60 @@ Bounce buttonB = Bounce();
 byte buttonStatus[15];
 
 void setup() {
+    setupButtons();
 //    pushButton(Button::B, 500, 5);
-    Serial.begin(115200);
-    buttonA.attach(5, INPUT_PULLUP);
-    buttonB.attach(4, INPUT_PULLUP);
+//    Serial.begin(115200);
+//    buttonA.attach(5, INPUT_PULLUP);
+//    buttonB.attach(4, INPUT_PULLUP);
+//
+//    buttonA.interval(MILLIDEBOUNCE);
+//    buttonB.interval(MILLIDEBOUNCE);
+//
+//    pinMode(pinOBLED, OUTPUT);
+//    //Set the LED to low to make sure it is off
+//    digitalWrite(pinOBLED, HIGH);
 
-    buttonA.interval(MILLIDEBOUNCE);
-    buttonB.interval(MILLIDEBOUNCE);
-
-    pinMode(pinOBLED, OUTPUT);
-    //Set the LED to low to make sure it is off
-    digitalWrite(pinOBLED, HIGH);
 }
 
 
-void update() {
-    if (buttonA.update()) {
-        buttonStatus[BUTTONA] = buttonA.fell();
-        Serial.println("A - update");
-    }
-    if (buttonB.update()) {
-        buttonStatus[BUTTONB] = buttonB.fell();
-        Serial.println("B - update");
-    }
-}
+//void update() {
+//    if (buttonA.update()) {
+//        buttonStatus[BUTTONA] = buttonA.fell();
+//        Serial.println("A - update");
+//    }
+//    if (buttonB.update()) {
+//        buttonStatus[BUTTONB] = buttonB.fell();
+//        Serial.println("B - update");
+//    }
+//}
 
-void process() {
-    if (buttonStatus[BUTTONA]) {
-        SwitchControlLibrary().pressButton(Button::A);
-        Serial.println("A - process");
-    }
-
-    if (buttonStatus[BUTTONB]) {
-        SwitchControlLibrary().pressButton(Button::B);
-        Serial.println("B - process");
-    }
-}
+//void process() {
+//    if (buttonStatus[BUTTONA]) {
+//        SwitchControlLibrary().pressButton(Button::A);
+//        Serial.println("A - process");
+//    }
+//
+//    if (buttonStatus[BUTTONB]) {
+//        SwitchControlLibrary().pressButton(Button::B);
+//        Serial.println("B - process");
+//    }
+//}
 
 
 void clearButtons() {
 
-    SwitchControlLibrary().releaseButton(Button::A);
-    SwitchControlLibrary().releaseButton(Button::B);
-    SwitchControlLibrary().releaseButton(Button::X);
-    SwitchControlLibrary().releaseButton(Button::Y);
+//    SwitchControlLibrary().releaseButton(Button::A);
+//    SwitchControlLibrary().releaseButton(Button::B);
+//    SwitchControlLibrary().releaseButton(Button::X);
+//    SwitchControlLibrary().releaseButton(Button::Y);
 }
 
 void loop() {
-    clearButtons();
-
-    update();
-    process();
-    SwitchControlLibrary().sendReport();
+    readMatrix();
+    printMatrix();
+//    clearButtons();
+//
+//    update();
+//    process();
+//    SwitchControlLibrary().sendReport();
 }
