@@ -14,18 +14,18 @@ const int colCount = sizeof(cols) / sizeof(cols[0]);
 byte keys[colCount][rowCount];
 
 ButtonMatrix_::ButtonMatrix_() {
-    _controllerState.y = false;
-    _controllerState.x = false;
-    _controllerState.b = false;
     _controllerState.a = false;
+    _controllerState.b = false;
+    _controllerState.x = false;
     _controllerState.l = false;
     _controllerState.r = false;
+    _controllerState.y = false;
     _controllerState.zl = false;
     _controllerState.zr = false;
-    _controllerState.up = false;
     _controllerState.down = false;
-    _controllerState.right = false;
     _controllerState.left = false;
+    _controllerState.right = false;
+    _controllerState.up = false;
     _controllerState.mod_x = false;
     _controllerState.mod_y = false;
     _controllerState.c_left = false;

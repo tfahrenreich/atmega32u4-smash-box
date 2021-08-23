@@ -13,7 +13,7 @@ struct Button
     static const uint16_t X = 0x0008;
     static const uint16_t L = 0x0010;
     static const uint16_t R = 0x0020;
-    static const uint16_t ZL = 0x0040;
+    static const uint16_t _ZL = 0x0040;
     static const uint16_t ZR = 0x0080;
     static const uint16_t MINUS = 0x0100;
     static const uint16_t PLUS = 0x0200;
