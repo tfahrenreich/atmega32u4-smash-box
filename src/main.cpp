@@ -9,8 +9,9 @@ void setup() {
 }
 
 void loop() {
-    ButtonMatrix().handleMatrix();
-    ButtonMatrix().printMatrix();
+//    delay(100);
+//    ButtonMatrix().printMatrix();
 
+    ButtonMatrix().handleMatrix();
     processInputs();
 }

@@ -7,7 +7,7 @@
 
 
 byte rows[3] = {2, 3, 4};
-byte cols[7] = {8, 9, 10, 20, 19, 18, 17};
+byte cols[7] = {21, 20, 19, 18, 15, 14, 16};
 const int rowCount = sizeof(rows) / sizeof(rows[0]);
 const int colCount = sizeof(cols) / sizeof(cols[0]);
 
@@ -41,43 +41,43 @@ ButtonMatrix_::ButtonMatrix_() {
 void ButtonMatrix_::setupButtons() {
     Serial.begin(115200);
 
-    for (unsigned char row : rows) {
+    for (unsigned char row: rows) {
         Serial.print(row);
         pinMode(row, INPUT);
     }
-    for (unsigned char col : cols) {
+    for (unsigned char col: cols) {
         Serial.print(col);
         pinMode(col, INPUT_PULLUP);
     }
 };
 
 void ButtonMatrix_::assignButtonValues() {
-    //[0][0]y          [1][0]x         [2][0]b         [3][0]a         [4][0]l         [5][0]r         [6][0]zl
-    //[0][1]zr         [1][1]up        [2][1]down      [3][1]right     [4][1]left      [5][1]modx      [6][1]mody
-    //[0][2]c_left     [1][2]c_right   [2][2]c_up      [3][2]c_down    [4][2]plus      [5][2]minus     [6][2]home
-    _controllerState.y = keys[0][0];
+
+    _controllerState.up = keys[3][2];
+    _controllerState.down = keys[4][2];
+    _controllerState.left = keys[5][2];
+    _controllerState.right = keys[2][2];
+    _controllerState.l = keys[6][2];
+
+    _controllerState.mod_y = keys[1][2];
+    _controllerState.mod_x = keys[2][1];
+    _controllerState.plus = keys[6][0];
+    _controllerState.minus = keys[6][1];
+    _controllerState.home = keys[5][1];
+
+    _controllerState.a = keys[0][0];
+    _controllerState.c_left = keys[1][1];
+    _controllerState.c_right = keys[4][1];
+    _controllerState.c_up = keys[0][2];
+    _controllerState.c_down = keys[0][1];
+
+    _controllerState.b = keys[5][0];
+    _controllerState.r = keys[4][0];
+    _controllerState.y = keys[3][0];
     _controllerState.x = keys[1][0];
-    _controllerState.b = keys[2][0];
-    _controllerState.a = keys[3][0];
-    _controllerState.l = keys[4][0];
-    _controllerState.r = keys[5][0];
-    _controllerState.zl = keys[6][0];
 
-    _controllerState.zr = keys[0][1];
-    _controllerState.up = keys[1][1];
-    _controllerState.down = keys[2][1];
-    _controllerState.right = keys[3][1];
-    _controllerState.left = keys[4][1];
-    _controllerState.mod_x = keys[5][1];
-    _controllerState.mod_y = keys[6][1];
-
-    _controllerState.c_left = keys[0][2];
-    _controllerState.c_right = keys[1][2];
-    _controllerState.c_up = keys[2][2];
-    _controllerState.c_down = keys[3][2];
-    _controllerState.plus = keys[4][2];
-    _controllerState.minus = keys[5][2];
-    _controllerState.home = keys[6][2];
+//    _controllerState.zl = keys[4][0];
+//    _controllerState.zr = keys[0][1];
 };
 
 void ButtonMatrix_::handleMatrix() {
@@ -89,7 +89,7 @@ void ButtonMatrix_::handleMatrix() {
         for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
             byte rowCol = rows[rowIndex];
             pinMode(rowCol, INPUT_PULLUP);
-            keys[colIndex][rowIndex] = digitalRead(rowCol);
+            keys[colIndex][rowIndex] = (digitalRead(rowCol) == LOW);
             pinMode(rowCol, INPUT);
         }
         pinMode(curCol, INPUT);
